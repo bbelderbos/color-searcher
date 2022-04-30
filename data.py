@@ -5,7 +5,7 @@ from rich.console import Console
 
 console = Console()
 
-colors_csv_url = "https://raw.githubusercontent.com/codebrainz/color-names/master/output/colors.csv"
+colors_csv_url = "https://raw.githubusercontent.com/bbelderbos/color-names/master/output/colors.csv"
 colors_csv_file = Path(colors_csv_url).name
 
 def download_data():
