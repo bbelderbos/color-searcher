@@ -1,3 +1,4 @@
+import colorsys
 import csv
 from pathlib import Path
 import sys
@@ -14,9 +15,16 @@ error_console = Console(stderr=True, style="bold red")
 FULL_COLOR_HEX_LEN = 7
 
 
+class Hls(NamedTuple):
+    H: float
+    L: float
+    S: float
+
+
 class Color(NamedTuple):
     hex_: str
     name: str
+    hls: Hls
 
 
 def get_hex_colors(search_term):
@@ -31,10 +39,16 @@ def get_hex_colors(search_term):
                 continue
             if search_term.lower() not in name.lower():
                 continue
-            yield Color(hex_, name)
+            hls = Hls(*colorsys.rgb_to_hls(
+                int(row["r"]), int(row["g"]), int(row["b"])
+            ))
+            yield Color(hex_, name, hls)
 
 
-def show_colors(seach_term, colors, num_column_pairs=3):
+def show_colors(seach_term, colors, num_column_pairs=3, order_by_hls=True):
+    if order_by_hls:
+        colors.sort(key=lambda x: x.hls.L)
+
     table = Table(title=f"Matching colors for {search_term}")
 
     for _ in range(num_column_pairs):
