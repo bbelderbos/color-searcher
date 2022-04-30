@@ -47,7 +47,7 @@ def get_hex_colors(search_term):
 
 def show_colors(seach_term, colors, num_column_pairs=3, order_by_hls=True):
     if order_by_hls:
-        colors.sort(key=lambda x: x.hls.L)
+        colors.sort(key=lambda x: x.hls.L, reverse=True)
 
     table = Table(title=f"Matching colors for {search_term}")
 
